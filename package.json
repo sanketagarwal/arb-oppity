@@ -1,0 +1,38 @@
+{
+  "name": "arb-oppity",
+  "version": "0.1.0",
+  "description": "Liquidity timing extension for Replay Labs - agent tools for cross-venue prediction market arbitrage",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "analyze": "tsx scripts/analyze-spreads.ts",
+    "demo": "tsx scripts/demo.ts",
+    "test": "vitest",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "replay-labs",
+    "arbitrage",
+    "prediction-markets",
+    "kalshi",
+    "polymarket",
+    "liquidity",
+    "mastra",
+    "agent"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "replay-fee-oracle": "file:../replay-fee-oracle",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}
