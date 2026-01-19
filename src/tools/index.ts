@@ -23,16 +23,36 @@ export {
   type AnalyzeArbOutput,
 } from './analyze-arb';
 
+export {
+  scanOpportunitiesTool,
+  scanOpportunities,
+  scanOpportunitiesInputSchema,
+  scanOpportunitiesOutputSchema,
+  type ScanOpportunitiesInput,
+  type ScanOpportunitiesOutput,
+  type Opportunity,
+  type Prediction,
+} from './scan-opportunities';
+
 /**
  * All tools for easy registration with agent framework
  */
 export const arbOppityTools = {
-  checkLiquidityRegime: {
-    id: 'check-liquidity-regime',
-    description: 'Check current liquidity regime for a prediction market',
+  // PRIMARY TOOL - Use this first
+  scanOpportunities: {
+    id: 'scan-opportunities',
+    description: 'Scan for arb opportunities NOW or PREDICT when they will occur',
   },
+  
+  // SECONDARY - For detailed analysis of a specific opportunity
   analyzeCrossVenueArb: {
     id: 'analyze-cross-venue-arb', 
-    description: 'Analyze if cross-venue arb is profitable after fees',
+    description: 'Deep analysis of a specific arb with full fee breakdown',
+  },
+  
+  // LEGACY - Kept for compatibility
+  checkLiquidityRegime: {
+    id: 'check-liquidity-regime',
+    description: 'Check liquidity regime for a single market',
   },
 };

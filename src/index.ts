@@ -32,19 +32,31 @@
 
 // Tools
 export {
-  checkLiquidityTool,
-  checkLiquidity,
-  checkLiquidityInputSchema,
-  checkLiquidityOutputSchema,
-  type CheckLiquidityInput,
-  type CheckLiquidityOutput,
+  // Primary tool - scan for opportunities
+  scanOpportunitiesTool,
+  scanOpportunities,
+  scanOpportunitiesInputSchema,
+  scanOpportunitiesOutputSchema,
+  type ScanOpportunitiesInput,
+  type ScanOpportunitiesOutput,
+  type Opportunity,
+  type Prediction,
   
+  // Detailed analysis tool
   analyzeArbTool,
   analyzeArb,
   analyzeArbInputSchema,
   analyzeArbOutputSchema,
   type AnalyzeArbInput,
   type AnalyzeArbOutput,
+  
+  // Single market check (legacy)
+  checkLiquidityTool,
+  checkLiquidity,
+  checkLiquidityInputSchema,
+  checkLiquidityOutputSchema,
+  type CheckLiquidityInput,
+  type CheckLiquidityOutput,
   
   arbOppityTools,
 } from './tools';
