@@ -1,27 +1,17 @@
 /**
  * Agent Tools for Cross-Venue Prediction Market Arbitrage
  * 
- * These tools are designed for use with AI agents (e.g., Mastra framework).
- * They integrate with Replay Labs API for market data and replay-fee-oracle for fee calculation.
+ * Two tools, both market-specific:
+ * 
+ * 1. scan-opportunities: Find opportunities across markets
+ *    - scan_now: Which markets have wide spreads RIGHT NOW?
+ *    - predict: When will THIS MARKET likely have wide spreads?
+ * 
+ * 2. analyze-arb: Deep dive into a SPECIFIC opportunity
+ *    - Full fee breakdown
+ *    - Direction (buy/sell venue)
+ *    - Execute/wait/skip recommendation
  */
-
-export { 
-  checkLiquidityTool,
-  checkLiquidity,
-  checkLiquidityInputSchema,
-  checkLiquidityOutputSchema,
-  type CheckLiquidityInput,
-  type CheckLiquidityOutput,
-} from './check-liquidity';
-
-export {
-  analyzeArbTool,
-  analyzeArb,
-  analyzeArbInputSchema,
-  analyzeArbOutputSchema,
-  type AnalyzeArbInput,
-  type AnalyzeArbOutput,
-} from './analyze-arb';
 
 export {
   scanOpportunitiesTool,
@@ -34,25 +24,35 @@ export {
   type Prediction,
 } from './scan-opportunities';
 
+export {
+  analyzeArbTool,
+  analyzeArb,
+  analyzeArbInputSchema,
+  analyzeArbOutputSchema,
+  type AnalyzeArbInput,
+  type AnalyzeArbOutput,
+} from './analyze-arb';
+
 /**
- * All tools for easy registration with agent framework
+ * All tools for agent registration
  */
 export const arbOppityTools = {
-  // PRIMARY TOOL - Use this first
   scanOpportunities: {
     id: 'scan-opportunities',
-    description: 'Scan for arb opportunities NOW or PREDICT when they will occur',
+    description: `Find arbitrage opportunities across prediction markets.
+    
+    Mode 'scan_now': Returns ALL markets with spreads above threshold, ranked by profit potential.
+    Mode 'predict': For a SPECIFIC market, predicts when spreads will likely widen based on historical patterns.`,
   },
   
-  // SECONDARY - For detailed analysis of a specific opportunity
-  analyzeCrossVenueArb: {
+  analyzeArb: {
     id: 'analyze-cross-venue-arb', 
-    description: 'Deep analysis of a specific arb with full fee breakdown',
-  },
-  
-  // LEGACY - Kept for compatibility
-  checkLiquidityRegime: {
-    id: 'check-liquidity-regime',
-    description: 'Check liquidity regime for a single market',
+    description: `Analyze a SPECIFIC market pair for arbitrage.
+    
+    Given Kalshi ticker + Polymarket token, returns:
+    - Current prices on both venues
+    - Fee breakdown (Kalshi formula, Polymarket 1bp + gas)
+    - Net profit after fees
+    - EXECUTE / WAIT / SKIP recommendation`,
   },
 };

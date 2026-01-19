@@ -1,38 +1,47 @@
 /**
- * arb-oppity: Liquidity Timing Extension for Replay Labs
+ * arb-oppity: Cross-Venue Prediction Market Arbitrage Tools
  * 
- * Agent tools for cross-venue prediction market arbitrage.
- * Integrates with Replay Labs API and replay-fee-oracle.
+ * Extension for Replay Labs API.
  * 
  * @example
  * ```ts
- * import { checkLiquidity, analyzeArb } from 'arb-oppity';
+ * import { scanOpportunities, analyzeArb } from 'arb-oppity';
  * 
- * // Step 1: Check if liquidity conditions are favorable
- * const liquidity = await checkLiquidity({
- *   market_id: 'PRES-2024-DJT',
- *   venue: 'KALSHI',
+ * // Step 1: Find opportunities across all markets
+ * const scan = await scanOpportunities({
+ *   mode: 'scan_now',
+ *   min_spread_pct: 3,
+ *   min_net_profit_usd: 20,
  * }, replayLabsClient);
  * 
- * if (liquidity.is_favorable) {
- *   // Step 2: Analyze the arb opportunity
- *   const arb = await analyzeArb({
- *     kalshi_ticker: 'PRES-2024-DJT',
- *     polymarket_token_id: '0x123...',
+ * // Step 2: If opportunities exist, analyze the best one
+ * if (scan.opportunities.length > 0) {
+ *   const best = scan.opportunities[0];
+ *   const analysis = await analyzeArb({
+ *     kalshi_ticker: best.kalshi_ticker,
+ *     polymarket_token_id: best.polymarket_token_id,
  *     size_usd: 1000,
  *   }, replayLabsClient);
  *   
- *   if (arb.action === 'EXECUTE') {
- *     console.log(`Execute: Buy on ${arb.buy_venue}, Sell on ${arb.sell_venue}`);
- *     console.log(`Net profit: $${arb.net_profit_usd.toFixed(2)}`);
+ *   if (analysis.action === 'EXECUTE') {
+ *     console.log(`Execute: Buy ${analysis.buy_venue}, Sell ${analysis.sell_venue}`);
  *   }
  * }
+ * 
+ * // Or: Predict when a specific market will have opportunities
+ * const prediction = await scanOpportunities({
+ *   mode: 'predict',
+ *   market_id: 'TRUMP-2024',
+ *   hours_ahead: 24,
+ * }, replayLabsClient);
+ * 
+ * console.log(`Next window: ${prediction.prediction.next_likely_window.start}`);
  * ```
  */
 
 // Tools
 export {
-  // Primary tool - scan for opportunities
+  // Primary: Scan for opportunities
   scanOpportunitiesTool,
   scanOpportunities,
   scanOpportunitiesInputSchema,
@@ -42,7 +51,7 @@ export {
   type Opportunity,
   type Prediction,
   
-  // Detailed analysis tool
+  // Secondary: Detailed analysis of specific opportunity
   analyzeArbTool,
   analyzeArb,
   analyzeArbInputSchema,
@@ -50,14 +59,7 @@ export {
   type AnalyzeArbInput,
   type AnalyzeArbOutput,
   
-  // Single market check (legacy)
-  checkLiquidityTool,
-  checkLiquidity,
-  checkLiquidityInputSchema,
-  checkLiquidityOutputSchema,
-  type CheckLiquidityInput,
-  type CheckLiquidityOutput,
-  
+  // Tool registry for agent frameworks
   arbOppityTools,
 } from './tools';
 
