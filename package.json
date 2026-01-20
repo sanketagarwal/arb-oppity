@@ -8,7 +8,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "analyze": "tsx scripts/analyze-spreads.ts",
+    "analyze": "tsx src/analysis/run-analysis.ts",
     "demo": "tsx scripts/demo.ts",
     "test": "vitest",
     "type-check": "tsc --noEmit"
